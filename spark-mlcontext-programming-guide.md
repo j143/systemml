@@ -407,10 +407,10 @@ meanOut = mean(Xin)
 "
 
 scala> val mm = new MatrixMetadata(numRows, numCols)
-mm: org.apache.sysml.api.mlcontext.MatrixMetadata = rows: 10000, columns: 100, non-zeros: None, rows per block: None, columns per block: None
+mm: org.apache.sysds.api.mlcontext.MatrixMetadata = rows: 10000, columns: 100, non-zeros: None, rows per block: None, columns per block: None
 
 scala> val minMaxMeanScript = dml(minMaxMean).in("Xin", df, mm).out("minOut", "maxOut", "meanOut")
-minMaxMeanScript: org.apache.sysml.api.mlcontext.Script =
+minMaxMeanScript: org.apache.sysds.api.mlcontext.Script =
 Inputs:
   [1] (DataFrame) Xin: [C0: double, C1: double, C2: double, C3: double, C4: double, C5: double, C6: double, C7: double, ...
 
