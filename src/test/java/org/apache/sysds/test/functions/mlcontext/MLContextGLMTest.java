@@ -69,13 +69,13 @@ public class MLContextGLMTest extends MLContextTestBase {
 		runRScript(true);
 
 		MatrixBlock outmat = new MatrixBlock();
+		Script glm = dmlFromFile(TEST_SCRIPT);
 
 		switch (type) {
 			case POISSON_LOG:
-			Script lrcg = dmlFromFile(TEST_SCRIPT);
-			lrcg.in("X", X).in("y", Y).in("$icpt", "0").in("$tol", "0.000001").in("$maxi", "0").in("$reg", "0.000001")
+			glm.in("X", X).in("Y", Y).in("$icpt", "0").in("$tol", "0.000001").in("$maxi", "0").in("$reg", "0.000001")
 					.out("beta_out");
-			outmat = ml.execute(lrcg).getMatrix("beta_out").toMatrixBlock();
+			outmat = ml.execute(glm).getMatrix("beta_out").toMatrixBlock();
 
 			break;
 

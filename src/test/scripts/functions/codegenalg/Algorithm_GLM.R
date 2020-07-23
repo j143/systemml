@@ -22,7 +22,11 @@
 args <- commandArgs(TRUE)
 library("Matrix")
 
-
+# check_if_supported
+# glm_initialize
+# glm_dist
+# glm_log_likelihood_part
+# binomial_probability_two_column
 
 
 check_if_supported <- 
@@ -86,10 +90,11 @@ glm_initialize <- function (X, Y, dist_type, var_power, link_type, link_power, i
     saturated_log_l = 0.0;
     isNaN = 0;
     y_corr = Y [, 1];
+    print( "initialize start .." )
     if (dist_type == 2) {
         n_corr = rowSums (Y);
         is_n_zero = (n_corr == 0.0);
-        y_corr = Y [, 1] / (n_corr + is_n_zero) + (0.5 - Y [, 1]) * is_n_zero;    
+        y_corr = Y [, 1] / (n_corr + is_n_zero) + (0.5 - Y [, 1]) * is_n_zero;
     }
     linear_terms = y_corr;
     if (dist_type == 1 & link_type == 1) { # POWER DISTRIBUTION
@@ -116,6 +121,7 @@ glm_initialize <- function (X, Y, dist_type, var_power, link_type, link_power, i
                 linear_terms = y_corr ^ link_power;
             } else { isNaN = 1; }
         }}}}}
+        print  (toString(y_corr))
     }
     if (dist_type == 2 & link_type >= 1 & link_type <= 5)
     { # BINOMIAL/BERNOULLI DISTRIBUTION
@@ -157,24 +163,41 @@ glm_initialize <- function (X, Y, dist_type, var_power, link_type, link_power, i
     }
     
     if (isNaN == 0) {
+        # jdebug 2
+        print("linear_terms")
+        print(toString(linear_terms))
+        print("Y")
+        print(toString(Y))
+        print("dist_type")
+        print(toString(dist_type))
+        print("var_power")
+        print(toString(var_power))
+        print("link_power")
+        print(toString(link_power))
         tmp1 = glm_log_likelihood_part (linear_terms, Y, dist_type, var_power, link_type, link_power);
+        print( "if (isNaN == 0) { is working")
         saturated_log_l = tmp1[1];
+        print("tmp1 values")
+        print(toString(tmp1))
         isNaN = tmp1[2];
     }
     
     if ((dist_type == 1 & link_type == 1 & link_power == 0.0) |
         (dist_type == 2 & link_type >= 2))
-    {    
+    {
         desired_eta = 0.0;
     } else { if (link_type == 1 & link_power == 0.0) {
         desired_eta = log (0.5);
     } else { if (link_type == 1) {
         desired_eta = 0.5 ^ link_power;
+        print("desired_eta = 0.5 ^ link_power;")
     } else {
         desired_eta = 0.5;
     }}}
     
     beta = matrix (0.0, ncol(X), 1);
+    print("beta = matrix (0.0, ncol(X), 1);")
+    print(toString(beta))
     
     if (desired_eta != 0.0) {
         if (icept_status == 1 | icept_status == 2) {
@@ -185,7 +208,13 @@ glm_initialize <- function (X, Y, dist_type, var_power, link_type, link_power, i
             
             beta = straightenX (X, 0.000001, max_iter_CG);  
             beta = beta * desired_eta;
-}   }   
+            print("beta = beta * desired_eta;")
+            print( toString(beta) )
+    }   }
+  print("saturate_log_l")
+  print(toString(saturated_log_l))
+  jres = c(beta, saturated_log_l, isNaN)
+  print(toString(jres))
 
   return (c(beta, saturated_log_l, isNaN))
 }
@@ -328,6 +357,7 @@ glm_log_likelihood_part <- function (linear_terms, Y,
                 b_cumulant = linear_terms;
                 is_natural_parameter_log_zero = (linear_terms == 0.0);
                 natural_parameters = log (linear_terms + is_natural_parameter_log_zero);
+                print(toString(natural_parameters))
             } else {isNaN = 1;}
         } else { if (var_power == 1.0 & link_power == 0.5)  { # Poisson.sqrt
             if (sum ((linear_terms <0.0)) == 0)  {
@@ -683,6 +713,7 @@ round_to_print <- function (x_to_truncate)
     return (c(mantissa, eee));
 }
 
+## REMOVE: starting of the script
 
 X = readMM(paste(args[1], "X.mtx", sep=""));
 Y = readMM(paste(args[1], "Y.mtx", sep=""));
@@ -691,13 +722,19 @@ fileO = " ";
 fileLog = " ";
 
 intercept_status = as.integer(args[2]);
+print(toString(intercept_status))
 eps = as.double(args[3]);
+print(toString(eps))
 max_iteration_IRLS = as.integer(args[4]);
+print(toString(max_iteration_IRLS))
 max_iteration_CG = as.integer(args[4]);
+print(toString(max_iteration_CG))
 
 distribution_type = as.integer(args[5]);
+print(toString(distribution_type))
 variance_as_power_of_the_mean = as.double(args[6]);
-link_type = as.integer(args[7]); 
+print(toString(variance_as_power_of_the_mean))
+link_type = as.integer(args[7]);
 
 if( distribution_type != 1 ) {
   link_as_power_of_the_mean = as.double(args[8]);
@@ -803,7 +840,9 @@ if (distribution_type == 2 & ncol(Y) == 1)
 }
 
 # Set up the canonical link, if requested [Then we have: Var(mu) * (d link / d mu) = const]
-
+print( "printing link_type value" )
+print( toString(link_type) )
+link_type = 1
 if (link_type == 0)
 {
     if (distribution_type == 1) {
