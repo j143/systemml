@@ -26,23 +26,21 @@
 
 // COMMAND ----------
 
-// MAGIC %scala
-// MAGIC import org.apache.sysds.api.mlcontext._
-// MAGIC import org.apache.sysds.api.mlcontext.ScriptFactory._
-// MAGIC val ml = new MLContext(spark)
+import org.apache.sysds.api.mlcontext._
+import org.apache.sysds.api.mlcontext.ScriptFactory._
+val ml = new MLContext(spark)
 
 // COMMAND ----------
 
-// MAGIC %scala
-// MAGIC val habermanUrl = "http://archive.ics.uci.edu/ml/machine-learning-databases/haberman/haberman.data"
-// MAGIC val habermanList = scala.io.Source.fromURL(habermanUrl).mkString.split("\n")
-// MAGIC val habermanRDD = sc.parallelize(habermanList)
-// MAGIC val habermanMetadata = new MatrixMetadata(306, 4)
-// MAGIC val typesRDD = sc.parallelize(Array("1.0,1.0,1.0,2.0"))
-// MAGIC val typesMetadata = new MatrixMetadata(1, 4)
-// MAGIC val scriptUrl = "https://raw.githubusercontent.com/apache/systemds/master/scripts/algorithms/Univar-Stats.dml"
-// MAGIC val uni = dmlFromUrl(scriptUrl).in("A", habermanRDD, habermanMetadata).in("K", typesRDD, typesMetadata).in("$CONSOLE_OUTPUT", true)
-// MAGIC ml.execute(uni)
+val habermanUrl = "http://archive.ics.uci.edu/ml/machine-learning-databases/haberman/haberman.data"
+val habermanList = scala.io.Source.fromURL(habermanUrl).mkString.split("\n")
+val habermanRDD = sc.parallelize(habermanList)
+val habermanMetadata = new MatrixMetadata(306, 4)
+val typesRDD = sc.parallelize(Array("1.0,1.0,1.0,2.0"))
+val typesMetadata = new MatrixMetadata(1, 4)
+val scriptUrl = "https://raw.githubusercontent.com/apache/systemds/master/scripts/algorithms/Univar-Stats.dml"
+val uni = dmlFromUrl(scriptUrl).in("A", habermanRDD, habermanMetadata).in("K", typesRDD, typesMetadata).in("$CONSOLE_OUTPUT", true)
+ml.execute(uni)
 
 // COMMAND ----------
 
@@ -50,13 +48,12 @@
 
 // COMMAND ----------
 
-// MAGIC %scala
-// MAGIC val s = """
-// MAGIC   source("scripts/nn/layers/relu.dml") as relu;
-// MAGIC   X = rand(rows=100, cols=10, min=-1, max=1);
-// MAGIC   R1 = relu::forward(X);
-// MAGIC   R2 = max(X, 0);
-// MAGIC   R = sum(R1==R2);
-// MAGIC   """
-// MAGIC 
-// MAGIC val ret = ml.execute(dml(s).out("R")).getScalarObject("R").getDoubleValue();
+val s = """
+  source("scripts/nn/layers/relu.dml") as relu;
+  X = rand(rows=100, cols=10, min=-1, max=1);
+  R1 = relu::forward(X);
+  R2 = max(X, 0);
+  R = sum(R1==R2);
+  """
+
+val ret = ml.execute(dml(s).out("R")).getScalarObject("R").getDoubleValue();
