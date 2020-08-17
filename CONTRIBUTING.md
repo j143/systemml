@@ -46,13 +46,21 @@ let's make sure the changes are consistent with the guidelines and coding style.
 
 #### Code Style
 
-Before contributing a pull request, we highly suggest applying a code formatter to the written code.
+Before contributing a pull request, a code formatter can be applied to the written code.
 
-We have provided at profile for java located in [Codestyle File ./docs/CodeStyle.eclipse.xml](dev/CodeStyle_eclipse.xml). This can be loaded in most editors e.g.:
+[Eclipse codestyle file](dev/CodeStyle_eclipse.xml) - This can be loaded in most editors e.g.:
+    - [Eclipse](https://stackoverflow.com/questions/10432538/eclipse-import-conf-xml-files#10433986)
+    - [IntelliJ](https://imagej.net/Eclipse_code_style_profiles_and_IntelliJ)
+    - [Visual Studio Code](https://stackoverflow.com/questions/46030629/need-to-import-eclipse-java-formatter-profile-in-visual-studio-code)
 
-- [Eclipse](https://stackoverflow.com/questions/10432538/eclipse-import-conf-xml-files#10433986)
-- [IntelliJ](https://imagej.net/Eclipse_code_style_profiles_and_IntelliJ)
-- [Visual Studio Code](https://stackoverflow.com/questions/46030629/need-to-import-eclipse-java-formatter-profile-in-visual-studio-code)
+- [Shell](https://google.github.io/styleguide/shellguide.html)
+- [Java](https://google.github.io/styleguide/javaguide.html)
+
+#### Python Code Style
+
+Changes to the python code can be conformed to [Python Style Guide](https://github.com/google/styleguide/blob/gh-pages/pyguide.md)
+
+A comment during code review is at [892#pullrequestreview-395648080](https://github.com/apache/systemds/pull/892#pullrequestreview-395648080)
 
 #### License
 
