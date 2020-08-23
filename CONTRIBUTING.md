@@ -93,15 +93,14 @@ correct direction.~~
 
 ### Commit description
 
-> A commit or PR description is a public record of **what** change is being made and **why**
-> it was made.
+> A commit or PR description is a public record of **what** change is being made and **why**.
 
 #### Why the description necessary?
 
 1. To keep a record of the work done.
 2. In future, Developers search for the commit based on its description.
-3. Someone in the future looking for your change because of a faint memory of its relevance.
-4. If all important information is in the code and not the description, it will be hard to
+3. Future developers, looking for your change because of a faint memory of its relevance.
+4. If all necessary information is in the code and not the description, it will be hard to
 the commit
 
 Navigate to https://github.com/apache/systemds/commits/master for the descriptions.
@@ -112,31 +111,31 @@ Note: PR is also called `commit`, `patch`, `Change List (CL)`, or `Merge Request
 
 ##### First Line
 
-1. Short summary of what the changeset does.
-2. Complete sentence, crafted as though it was an order.
+1. A summary of what the changeset.
+2. A complete sentence, crafted as though it was an order.
     - an imperative sentence
-    - No need to write the rest of the description as an imperative though.
-3. Follow by  empty line.
+    - Writing the rest of the description as an imperative is optional.
+3. Follow by an empty line.
 
 ##### Body
 
-This is normally the description.
+It consists of the following.
 
-1. A brief description of the problem being solved.
-2. Why this is the best approach.
-3. Shortcomings to the approached, if any (important!).
+1. A brief description of the problem solved.
+2. Why this is the best approach?.
+3. Shortcomings to the approach, if any (important!).
 
 Additional info
 
 4. background information
-   - bug numbers
-   - benchmark results
+   - bug/issue/jira numbers
+   - benchmark/test results
    - links to design documents
 5. Include enough context for
    - reviewers
    - future readers to understand the Changes.
 
-A commit description with all the points mentioned.
+The following is a commit description with all the points mentioned.
 
 [`1abe9cb`](https://github.com/apache/systemds/commit/1abe9cb79d8001992f1c79ba5e638e6b423a1382)
 
@@ -197,7 +196,7 @@ invocation of fcall instructions by using a narrower interface and
 constructing the materialized names internally in the fcall.
 ```
 
-##### Small Changeset still needs some context
+##### Small Changeset still needs some context.
 
 Example [`7af2ae0`](https://github.com/apache/systemds/commit/7af2ae04f28ddcb36158719a25a7fa34b22d3266)
 
@@ -218,7 +217,7 @@ Closes #1008
 #### Adapt the description before apply to the master
 
 The PRs undergo changes during the review. It can be worthwhile to
-review a PR (or commit) description, to ensure the description still
+review a PR (or commit) description, to ensure it still
 reflects what the PR (or commit) does.
 
 ___
