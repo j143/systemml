@@ -42,6 +42,8 @@ Instructions:
          - AWSKeyManagementServicePowerUser
          
          - IAMUserSSHKeys 
+         
+     * Also attach policy which can give user permission to create roles. 
 
 4. Configure your aws-cli (https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html#cli-quick-configuration)
 
