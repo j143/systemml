@@ -27,7 +27,8 @@ and algorithms development. The following conventions will be used to refer to d
 * `<MAVEN_HOME>` is the root directory for the Apache Maven source code.
 * `<SYSTEMDS_HOME>` is the root directory for the SystemDS source code.
 * `<SPARK_HOME>` is the root directory for the Apache Spark source code.
-* `<HADOOP_HOME>` is the root directory for the Apche Maven source code.
+* `<HADOOP_HOME>` is the root directory for the Apache Hadoop.
+* `<R_HOME>` is the root directory for R installation.
 * `<CUDA_HOME>`,`<CUDA_PATH>` is the top directory for NVIDIA GPU Computing Toolkit.  
 Ex. For version `9.0`, it would like `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0`
 Also, make sure that `libnvvp`, `bin` folders are accessible to command line.
