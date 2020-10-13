@@ -22,6 +22,7 @@ package org.apache.sysds.test.functions.mlcontext;
 import org.apache.log4j.Logger;
 import org.apache.sysds.api.mlcontext.MLResults;
 import org.apache.sysds.api.mlcontext.Script;
+import org.apache.sysds.lops.LopProperties;
 import org.apache.sysds.runtime.matrix.data.MatrixBlock;
 import org.apache.sysds.runtime.matrix.data.MatrixValue;
 import org.apache.sysds.test.TestUtils;
@@ -48,17 +49,26 @@ public class MLContextPNMFTest extends MLContextTestBase {
 	private final static double maxiter = 10;
 
 	@Test
-	public void testPNMFSparse() {
-		runPNMFTestMLC(true);
+	public void testPNMFSparseCP() {
+		runPNMFTestMLC(true, LopProperties.ExecType.CP);
 	}
 
 	@Test
-	public void testPNMFDense() {
-		runPNMFTestMLC(false);
+	public void testPNMFSparseSP() {
+		runPNMFTestMLC(true, LopProperties.ExecType.SPARK);
 	}
 
+	@Test
+	public void testPNMFDenseCP() {
+		runPNMFTestMLC(false, LopProperties.ExecType.CP);
+	}
 
-	private void runPNMFTestMLC(boolean sparse) {
+	@Test
+	public void testPNMFDenseSP() {
+		runPNMFTestMLC(false, LopProperties.ExecType.SPARK);
+	}
+
+	private void runPNMFTestMLC(boolean sparse, LopProperties.ExecType instType) {
 
 		//generate actual datasets
 		double[][] X = getRandomMatrix(rows, cols, 0, 1, sparse?sparsity2:sparsity1, 234);
