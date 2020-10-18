@@ -19,6 +19,8 @@
 
 package org.apache.sysds.test.functions.mlcontext;
 
+import static org.apache.sysds.api.mlcontext.ScriptFactory.dmlFromFile;
+
 import org.apache.log4j.Logger;
 import org.apache.sysds.api.mlcontext.MLResults;
 import org.apache.sysds.api.mlcontext.Script;
@@ -28,8 +30,6 @@ import org.apache.sysds.test.TestUtils;
 import org.junit.Test;
 
 import java.util.HashMap;
-
-import static org.apache.sysds.api.mlcontext.ScriptFactory.dmlFromFile;
 
 public class MLContextMLogregTest extends MLContextTestBase {
 	protected static Logger log = Logger.getLogger(MLContextMLogregTest.class);
@@ -42,7 +42,7 @@ public class MLContextMLogregTest extends MLContextTestBase {
 
 	private final static int rows = 2468;
 	private final static int cols = 227;
-//	private final static double alpha = 0.85;
+	private final static double alpha = 0.85;
 
 	private final static double epsilon = 1e-9;
 	private final static double maxiter = 10;
@@ -60,30 +60,30 @@ public class MLContextMLogregTest extends MLContextTestBase {
 
 	private void runMLogregTestMLC(boolean sparse) {
 
-		baseDirectory = "target/testTemp/functions/mlcontext/";
 
 		//generate actual datasets
 		double[][] X = getRandomMatrix(rows, cols, 0, 1, sparse?sparsity2:sparsity1, 2384);
-		writeInputMatrixWithMTD("X", X, true);
 		double[][] y = TestUtils.round(getRandomMatrix(rows, 1, 0.51, 5+0.49, 1.0, 9283));
-		writeInputMatrixWithMTD("Y", y, true);
+
+		baseDirectory = "target/testTemp/functions/mlcontext/";
 
 		fullRScriptName = "src/test/scripts/functions/codegenalg/Algorithm_MLogreg.R";
 
-//		rCmd = getRCmd(inputDir(), String.valueOf(alpha),
-//				String.valueOf(maxiter), expectedDir());
-//		runRScript(true);
+		writeInputMatrixWithMTD("X", X, true);
+		writeInputMatrixWithMTD("Y", y, true);
 
-//		MatrixBlock outmat = new MatrixBlock();
+		rCmd = getRCmd(inputDir(), String.valueOf(2),String.valueOf(epsilon),String.valueOf(maxiter), expectedDir());
+		runRScript(true);
+
+		MatrixBlock outmat;
 
 		Script mlr = dmlFromFile(TEST_SCRIPT_MLogreg);
-		mlr.in("X", X).in("Y", y);//.in("icpt", 2).in("tol", epsilon).in("moi", maxiter).in("reg", 0.001)
-//				.out("w");
-		MLResults outmat = ml.execute(mlr);//.getMatrix("w").toMatrixBlock();
+		mlr.in("X", X).in("Y", y).in("icpt", 2).in("tol", epsilon).in("moi", maxiter).in("reg", 0.001).out("w");
+		outmat = ml.execute(mlr).getMatrix("w").toMatrixBlock();
 
 
 		//compare matrices
-//		HashMap<MatrixValue.CellIndex, Double> rfile = readRMatrixFromFS("w");
-//		TestUtils.compareMatrices(rfile, outmat, eps);
+		HashMap<MatrixValue.CellIndex, Double> rfile = readRMatrixFromFS("w");
+		TestUtils.compareMatrices(rfile, outmat, eps);
 	}
 }
