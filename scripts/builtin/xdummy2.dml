@@ -17,12 +17,8 @@
 # specific language governing permissions and limitations
 # under the License.
 #
-#-------------------------------------------------------------
 
-X = cbind(read($1), read($2), read($3), read($4));
-S1 = read($5);
-S2 = read($6);
-T1 = read($7);
-T2 = read($8);
-B = bivar(X=X, S1=S1, S2=S2, T1=T1, T2=T2, verbose=FALSE);
-write(B, $9);
+m_xdummyTypo = function(Matrix[Double] X) return (Matrix[Double] Y, Matrix[Double] Z) {
+  Y = cor(X);
+  Z = Y;
+}

@@ -40,6 +40,9 @@ public enum Builtins {
 	//builtin functions
 	ABS("abs", false),
 	ACOS("acos", false),
+	ALS("als", true),
+	ALS_CG("alsCG", true),
+	ALS_DS("alsDS", true),
 	ASIN("asin", false),
 	ATAN("atan", false),
 	AVG_POOL("avg_pool", false),
@@ -53,6 +56,7 @@ public enum Builtins {
 	BITWXOR("bitwXor", false),
 	BITWSHIFTL("bitwShiftL", false),
 	BITWSHIFTR("bitwShiftR", false),
+	BIVAR("bivar", true),
 	CAST_AS_SCALAR("as.scalar", "castAsScalar", false),
 	CAST_AS_MATRIX("as.matrix", false),
 	CAST_AS_FRAME("as.frame", false),
@@ -116,6 +120,7 @@ public enum Builtins {
 	ISINF("is.infinite", false),
 	KMEANS("kmeans", true),
 	L2SVM("l2svm", true),
+	LASSO("lasso", true),
 	LENGTH("length", false),
 	LINEAGE("lineage", false),
 	LIST("list", false),  //note: builtin and parbuiltin
@@ -151,6 +156,7 @@ public enum Builtins {
 	OUTLIER_IQR("outlierByIQR", true),
 	PCA("pca", true),
 	PNMF("pnmf", true),
+	PPCA("ppca", true),
 	PPRED("ppred", false),
 	PROD("prod", false),
 	QR("qr", false, ReturnType.MULTI_RETURN),
@@ -226,7 +232,9 @@ public enum Builtins {
 	TRANSFORMDECODE("transformdecode", false, true),
 	TRANSFORMENCODE("transformencode", false, true),
 	TRANSFORMMETA("transformmeta", false, true),
-	UPPER_TRI("upper.tri", false, true);
+	UPPER_TRI("upper.tri", false, true),
+	XDUMMY1("xdummy1", true), //error handling test
+	XDUMMY2("xdummy2", true); //error handling test
 
 	Builtins(String name, boolean script) {
 		this(name, null, script, false, ReturnType.SINGLE_RETURN);

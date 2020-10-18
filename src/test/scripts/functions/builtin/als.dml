@@ -19,10 +19,15 @@
 #
 #-------------------------------------------------------------
 
-X = cbind(read($1), read($2), read($3), read($4));
-S1 = read($5);
-S2 = read($6);
-T1 = read($7);
-T2 = read($8);
-B = bivar(X=X, S1=S1, S2=S2, T1=T1, T2=T2, verbose=FALSE);
-write(B, $9);
+X = read($1)
+alg = $2
+
+if( alg == "alsCG" )
+  [U, V] = alsCG(X=X)
+else if( alg == "alsDS" )
+  [U, V] = alsDS(X=X)
+else if( alg == "als" )
+  [U, V] = als(X=X)
+
+write(U, $3)
+write(V, $4)
