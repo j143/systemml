@@ -64,7 +64,7 @@
 #
 # Script invocation example:
 # hadoop jar SystemDS.jar -f MultiLogReg.dml -nvargs icpt=2 reg=1.0 tol=0.000001 moi=100 mii=20
-#     X=INPUT_DIR/X123 Y=INPUT_DIR/Y123 B=OUTPUT_DIR/B123 fmt=csv Log=OUTPUT_DIR/log
+#     X=INPUT_DIR/X Y=INPUT_DIR/Y B=OUTPUT_DIR/B O=OUTPUT_DIR/Out icpt=2 reg=1.0 fmt=csv Log=OUTPUT_DIR/log
 
 fileX = $X;
 fileY = $Y;
@@ -84,8 +84,8 @@ print ("BEGIN MULTINOMIAL LOGISTIC REGRESSION SCRIPT");
 print ("Reading X...");
 X = read (fileX);
 print ("Reading Y...");
-Y_vec = read (fileY);
-
+Y = read (fileY);
+Y_vec = Y;
 eta0 = 0.0001;
 eta1 = 0.25;
 eta2 = 0.75;

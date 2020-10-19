@@ -63,23 +63,23 @@ public class MLContextMLogregTest extends MLContextTestBase {
 
 		//generate actual datasets
 		double[][] X = getRandomMatrix(rows, cols, 0, 1, sparse?sparsity2:sparsity1, 2384);
-		double[][] y = TestUtils.round(getRandomMatrix(rows, 1, 0.51, 5+0.49, 1.0, 9283));
+		double[][] Y = TestUtils.round(getRandomMatrix(rows, 1, 0.51, 5+0.49, 1.0, 9283));
 
 		baseDirectory = "target/testTemp/functions/mlcontext/";
 
 		fullRScriptName = "src/test/scripts/functions/codegenalg/Algorithm_MLogreg.R";
 
 		writeInputMatrixWithMTD("X", X, true);
-		writeInputMatrixWithMTD("Y", y, true);
+		writeInputMatrixWithMTD("Y",Y, true);
 
 		rCmd = getRCmd(inputDir(), String.valueOf(2),String.valueOf(epsilon),String.valueOf(maxiter), expectedDir());
 		runRScript(true);
 
-		MatrixBlock outmat;
+		MatrixBlock outmat = new MatrixBlock();
 
 		Script mlr = dmlFromFile(TEST_SCRIPT_MLogreg);
-		mlr.in("X", X).in("Y", y).in("icpt", 2).in("tol", epsilon).in("moi", maxiter).in("reg", 0.001).out("w");
-		outmat = ml.execute(mlr).getMatrix("w").toMatrixBlock();
+		mlr.in("X", X).in("Y", Y).in("$icpt", 2).in("$tol", epsilon).in("$moi", maxiter).in("$reg", 0.001).out("B_out");
+		outmat = ml.execute(mlr).getMatrix("B_out").toMatrixBlock();
 
 
 		//compare matrices
