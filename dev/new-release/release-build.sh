@@ -172,3 +172,39 @@ if [[ "$1" == "package" ]]; then
   exit 0
 fi
 
+if [[ "$1" == "docs" ]]; then
+  # Documentation
+  cd systemds
+  echo "Building SystemDS docs"
+  cd docs
+  
+  if [ ! -f "Gemfile" ]; then
+    cp "$SELF/Gemfile" .
+    cp "$SELF/Gemfile.lock" .
+    cp -r "$SELF/.bundle" .
+  fi
+  
+  bundle install
+  PRODUCTION=1 RELEASE_VERSION="$SYSTEMDS_VERSION" bundle exec jekyll build
+  cd ../..
+  
+  if ! is_dry_run; then
+    svn co --depth=empty $RELEASE_STAGING_LOCATION svn-systemds
+    rm -rf "svn-systemds/${DEST_DIR_NAME}-docs"
+    mkdir -p "svn-systemds/${DEST_DIR_NAME}-docs"
+    
+    echo "Copying release documentation"
+    cp -R "systemds/docs/_site" "svn-systemds/${DEST_DIR_NAME}-docs/"
+    svn add "svn-systemds/${DEST_DIR_NAME}-docs"
+    
+    cd svn-systemds
+    svn ci --username $ASF_USERNAME --password "$ASF_PASSWORD" -m"Apache Spark $SPARK_PACKAGE_VERSION docs" --no-auth-cache
+    cd ..
+    rm -rf svn-systemds
+  
+  fi
+  
+  mv "systemds/docs/_site" docs/
+  exit 0
+
+fi
