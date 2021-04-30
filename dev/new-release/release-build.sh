@@ -71,3 +71,30 @@ for env in ASF_USERNAME GPG_PASSPHRASE GPG_KEY; do
   fi
 done
 
+export LC_ALL=C.UTF-8
+export LANG=C.UTF-8
+
+# Commit reference to checkout for build
+GIT_REF=${GIT_REF:-master}
+
+RELEASE_STAGING_LOCATION="https://dist.apache.org/repos/dist/dev/systemds"
+
+GPG="gpg -u $GPG_KEY --no-tty --batch --pinentry-mode loopback"
+NEXUS_ROOT=https://repository.apache.org/service/local/staging
+# Profile for SystemDS staging uploads
+# For example, Spark staging uploads it is `d63f592e7eac0`
+NEXUS_PROFILE=
+BASE_DIR=$(pwd)
+
+init_java
+
+rm -rf systemds
+git clone "$ASF_REPO"
+cd systemds
+git checkout $GIT_REF
+git_hash=`git rev-parse --short HEAD`
+export GIT_HASH=$git_hash
+echo "Checked out SystemDS git hash $git_hash"
+
+
+
