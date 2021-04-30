@@ -277,3 +277,7 @@ if [[ "$1" == "publish-release" ]]; then
   cd ..
   exit 0
 fi
+
+cd ..
+rm -rf systemds
+echo "ERROR: expects to be called with 'package', 'docs', 'publish-release' or 'publish-snapshot'"
