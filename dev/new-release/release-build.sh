@@ -158,7 +158,14 @@ if [[ "$1" == "package" ]]; then
       SHA512 systemds-$SYSTEMDS_VERSION-bin-$NAME.tgz > \
       systemds-$SYSTEMDS_VERSION-bin-$NAME.tgz.sha512
       
-    
+    echo "Copying and signing regular binary distribution"
+    cp systemds-$SYSTEMDS_VERSION-bin-$NAME/systemds-$SYSTEMDS_VERSION-bin-$NAME.tgz .
+    echo $GPG_PASSPHRASE | $GPG --passphrase-fd 0 --armour \
+      --output systemds-$SYSTEMDS_VERSION-bin-$NAME.tgz.asc \
+      --detach-sig systemds-$SYSTEMDS_VERSION-bin-$NAME.tgz
+    echo $GPG_PASSPHRASE | $GPG --passphrase-fd 0 --print-md \
+      SHA512 systemds-$SYSTEMDS_VERSION-bin-$NAME.tgz > \
+      systemds-$SYSTEMDS_VERSION-bin-$NAME.tgz.sha512
     
   }
 
