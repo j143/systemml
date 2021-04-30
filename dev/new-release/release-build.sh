@@ -96,5 +96,26 @@ git_hash=`git rev-parse --short HEAD`
 export GIT_HASH=$git_hash
 echo "Checked out SystemDS git hash $git_hash"
 
+DEST_DIR_NAME="$SPARK_PACKAGE_VERSION"
 
+git clean -d -f -x
+rm -f .gitignore
+cd ..
+
+if [[ "$1" == "package" ]]; then
+  # Source and binary tarballs
+  echo "Packaging release source tarballs"
+  cp -r systemds systemds-$SYSTEMDS_VERSION
+  
+  # For excluding binary license/notice
+  # if [[ $SYSTEMDS_VERSION > "2.0.0" ]]; then
+  #   rm -f systemds-$SYSTEMDS_VERSION/LICENSE-binary
+  #   rm -f systemds-$SYSTEMDS_VERSION/NOTICE-binary
+  #   rm -rf systemds-$SYSTEMDS_VERSION/licenses-binary
+  # fi
+  
+  tar cvzf systemds-$SYSTEMDS_VERSION.tgz --exclude systemds-$SYSTEMDS_VERSION/.git systemds-$SYSTEMDS_VERSION
+
+  exit 0
+fi
 
