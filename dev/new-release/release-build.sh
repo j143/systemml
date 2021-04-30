@@ -115,6 +115,10 @@ if [[ "$1" == "package" ]]; then
   # fi
   
   tar cvzf systemds-$SYSTEMDS_VERSION.tgz --exclude systemds-$SYSTEMDS_VERSION/.git systemds-$SYSTEMDS_VERSION
+  echo $GPG_PASSPHRASE | $GPG --passphrase-fd 0 --armour --output systemds-$SYSTEMDS_VERSION.tgz.asc \
+    --detach-sig systemds-$SYSTEMDS_VERSION.tgz
+  shasum -a 512 systemds-$SYSTEMDS_VERSION.tgz > systemds-$SYSTEMDS_VERSION.tgz.sha512
+  rm -rf systemds-$SYSTEMDS_VERSION
 
   exit 0
 fi
