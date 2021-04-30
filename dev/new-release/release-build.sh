@@ -50,3 +50,24 @@ fi
 if [[ $@ == *"help"* ]]; then
   exit_with_usage
 fi
+
+if [[ -z "$ASF_PASSWORD" ]]; then
+  echo 'The environment variable ASF_PASSWORD is not set. Enter the password.'
+  echo
+  stty -echo && printf "ASF password: " && read ASF_PASSWORD && printf '\n' && stty echo
+fi
+
+if [[ -z "$GPG_PASSPHRASE" ]]; then
+  echo 'The environment variable GPG_PASSPHRASE is not set. Enter the passphrase to'
+  echo 'unlock the GPG signing key that will be used to sign the release!'
+  echo
+  stty -echo && printf "GPG passphrase: " && read GPG_PASSPHRASE && printf '\n' && stty echo
+fi
+
+for env in ASF_USERNAME GPG_PASSPHRASE GPG_KEY; do
+  if [ -z "${!env}" ]; then
+    echo "ERROR: $env must be set to run this script"
+    exit_with_usage
+  fi
+done
+
