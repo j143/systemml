@@ -208,3 +208,72 @@ if [[ "$1" == "docs" ]]; then
   exit 0
 
 fi
+
+if [[ "$1" == "publish-release" ]]; then
+  cd systemds
+  # Publish SystemDS to Maven release repo
+  echo "Publishing SystemDS checkout at '$GIT_REF' ($git_hash)"
+  echo "Publish version is $SYSTEMDS_VERSION"
+  # Coerce the requested version
+  mvn versions:set -DnewVersion=$SYSTEMDS_VERSION
+
+  # Using Nexus API documented here:
+  # https://support.sonatype.com/entries/39720203-Uploading-to-a-Staging-Repository-via-REST-API
+  if ! is_dry_run; then
+    echo "Creating Nexus staging repository"
+    repo_request="<promoteRequest><data><description>Apache SystemDS $SYSTEMDS_VERSION (commit $git_hash)</description></data></promoteRequest>"
+    out=$(curl -X POST -d "$repo_request" -u $ASF_USERNAME:$ASF_PASSWORD \
+      -H "Content-Type:application/xml" -v \
+      $NEXUS_ROOT/profiles/$NEXUS_PROFILE/start)
+    staged_repo_id=$(echo $out | sed -e "s/.*\(orgapachesystemds-[0-9]\{4\}\).*/\1/")
+    echo "Created Nexus staging repository: $staged_repo_id"
+  fi
+
+  tmp_repo=$(mktemp -d systemds-repo-tmp)
+  
+  pushd $tmp_repo/org/apache/systemds
+  
+  # Remove any extra files generated during install
+  find . -type f | grep -v \.jar | grep -v \.pom | xargs rm
+
+  echo "Creating hash and signature files"
+  # this must have .asc, .md5, and .sha1
+  for file in $(find . -type f)
+  do
+    echo $GPG_PASSPHRASE | $GPG --passphrase-fd 0 --output $file.asc \
+      --detach-sig --armour $file;
+    if [ $(command -v md5) ]; then
+      # Available on OS X; -q to keep only hash
+      md5 -q $file > $file.md5
+    else
+      # Available on Linux; cut to keep only hash
+      md5sum $file | cut -f1 -d' ' > $file.md5
+    fi
+    sha1sum $file | cut -f1 -d' ' > $file.sha1
+  done
+
+  if ! is_dry_run; then
+    nexus_upload=$NEXUS_ROOT/deployByRepositoryId/$staged_repo_id
+    echo "Uploading files to $nexus_upload"
+    for file in $(find . -type f)
+    do
+      # strip leading ./
+      file_short=$(echo $file | sed -e "s/\.\///")
+      dest_url="$nexus_upload/org/apache/systemds/$file_short"
+      echo " Uploading $file_short"
+      curl -u $ASF_USERNAME:$ASF_PASSWORD --upload-file $file_short $dest_url
+    done
+    
+    echo "Closing nexus staging repository"
+    repo_request="<promoteRequest><data><stagedRepositoryId>$staged_repo_id</stagedRepositoryId><description>Apache SystemDS $SYSTEMDS_VERSION (commit $git_hash)</description></data></promoteRequest>"
+    out=$(curl -X POST -d "$repo_request" -u $ASF_USERNAME:$ASF_PASSWORD \
+      -H "Content-Type:application/xml" -v \
+      $NEXUS_ROOT/profiles/$NEXUS_PROFILE/finish)
+    echo "Closed Nexus staging repository: $staged_repo_id"
+  fi
+  
+  popd
+  rm -rf $tmp_repo
+  cd ..
+  exit 0
+fi
