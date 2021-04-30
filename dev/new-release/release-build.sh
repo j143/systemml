@@ -147,6 +147,17 @@ if [[ "$1" == "package" ]]; then
       $PIP_FLAG $R_FLAG $FLAGS 2>&1 >  ../binary-release-$NAME.log
     cd ..
     
+    echo "Copying and signing python distribution"
+    PYTHON_DIST_NAME=systemds-$SYSTEMDS_VERSION.tar.gz
+    cp systemds-$SYSTEMDS_VERSION-bin-$NAME/python/dist/$PYTHON_DIST_NAME .
+    
+    echo $GPG_PASSPHRASE | $GPG --passphrase-fd 0 --armour \
+      --output $PYTHON_DIST_NAME.asc \
+      --detach-sig $PYTHON_DIST_NAME
+    echo $GPG_PASSPHRASE | $GPG --passphrase-fd 0 --print-md \
+      SHA512 systemds-$SYSTEMDS_VERSION-bin-$NAME.tgz > \
+      systemds-$SYSTEMDS_VERSION-bin-$NAME.tgz.sha512
+      
     
     
   }
