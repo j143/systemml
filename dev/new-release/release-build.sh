@@ -119,6 +119,37 @@ if [[ "$1" == "package" ]]; then
     --detach-sig systemds-$SYSTEMDS_VERSION.tgz
   shasum -a 512 systemds-$SYSTEMDS_VERSION.tgz > systemds-$SYSTEMDS_VERSION.tgz.sha512
   rm -rf systemds-$SYSTEMDS_VERSION
+  
+  make_binary_release() {
+    NAME=$1
+    FLAGS="$MVN_EXTRA_OPTS -B $2"
+    BUILD_PACKAGE=$3
+    
+    PIP_FLAG="--pip"
+    
+    echo "Building binary dist $NAME"
+    cp -r systemds systemds-$SYSTEMDS_VERSION-bin-$NAME
+    cd systemds-$SYSTEMDS_VERSION-bin-$NAME
+    
+    echo "Creating distribution: $NAME ($FLAGS)"
+    
+    # Write out the version to systemds version info
+    # We rewrite the - to a . and
+    # SNAPSHOT to dev0 to be closer to PEP440
+    SYSTEMDS_VERSION_PY=`echo "$SYSTEMDS_VERSION" | sed -e "s/-/./" -e "s/SNAPSHOT/dev0/" -e "s/preview/dev/"`
+    echo "__version__='$SYSTEMDS_VERSION_PY'" > python/systemds/version.py
+    
+    # Get maven home
+    MVN_HOME=`mvn -version 2>&1 | grep 'Maven home' | awk '{print $NF}'`
+    
+    echo "Creating distribution"
+    ./dev/make-distribution.sh --name $NAME --mvn $MVN_HOME/bin/mvn --tgz \
+      $PIP_FLAG $R_FLAG $FLAGS 2>&1 >  ../binary-release-$NAME.log
+    cd ..
+    
+    
+    
+  }
 
   exit 0
 fi
