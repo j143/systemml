@@ -70,6 +70,16 @@ Examples:
 - Markdown - refer to the top of this file!
 
 
+
+### Release versioning
+
+```txt
+<valid semver> ::= <version core>
+                 | <version core> "-" <pre-release>
+                 | <version core> "+" <build>
+                 | <version core> "-" <pre-release> "+" <build>
+```
+
 ___
 
 Thanks again for taking your time to help improve SystemDS! :+1:
