@@ -1,0 +1,199 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Nexus Repository Manager Single Instance Stack.
+Parameters:
+  VpcNetBlock:
+    Type: String
+    Default: 10.0.0.0/16
+    Description: The network address block for the VPC
+    MinLength: '9'
+    MaxLength: '18'
+    AllowedPattern: (\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})
+    ConstraintDescription: Must be a valid IP CIDR range of the form x.x.x.x/x.
+  SubnetAz:
+    Type: String
+    Default: 10.0.1.0/24
+    Description: The network address block for the subnet
+    MinLength: '9'
+    MaxLength: '18'
+    AllowedPattern: (\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})
+    ConstraintDescription: Must be a valid IP CIDR range of the form x.x.x.x/x.
+  ChefRecipeVersion:
+    Type: String
+    Default: release-0.4.20190312-111301.45b7eef
+    Description: URL of chef cookbook to install
+  LicenseS3Bucket:
+    Type: String
+    Default: ''
+    Description: (Optional) The S3 Bucket containing your Nexus Repository Manager
+      license file
+  LicenseS3Path:
+    Type: String
+    Default: ''
+    Description: (Optional) The path to your Nexus Repository Manager license file
+      within the S3 Bucket
+  KeyName:
+    Type: String
+    Default: ''
+    Description: Your key pair name for this region
+  InstanceType:
+    Type: String
+    Default: t2.large
+    AllowedValues:
+    - t2.large
+    - t2.xlarge
+    - t2.2xlarge
+    - m4.large
+    - m4.xlarge
+    - m4.2xlarge
+    - m4.4xlarge
+    - m4.10xlarge
+    - m4.16xlarge
+    - m3.large
+    - m3.xlarge
+    - m3.2xlarge
+    MinLength: 1
+    Description: The instance type
+  DeleteBlockDeviceOnTermination:
+    Type: String
+    Default: 'false'
+    AllowedValues:
+    - 'false'
+    - 'true'
+    MinLength: 1
+    Description: Automatically delete the instance's root block device on instance
+      termination.
+  NexusRepositoryManagerVersion:
+    Type: String
+    Default: 3.15.2-01
+    MinLength: 1
+    Description: The Nexus Repository Manager version
+  NexusRepositoryManagerSha256:
+    Type: String
+    Default: acde357f5bbc6100eb0d5a4c60a1673d5f1f785e71a36cfa308b8dfa45cf25d0
+    MinLength: 1
+    Description: The Nexus Repository Manager SHA-256 hash
+  JavaDownloadUrl:
+    Type: String
+    Default: https://download.oracle.com/otn-pub/java/jdk/8u202-b08/1961070e4c9b4e26a04e7f5a083f551e/server-jre-8u202-linux-x64.tar.gz
+    MinLength: 1
+    Description: The Java download URL
+  JavaSha256:
+    Type: String
+    Default: 61292e9d9ef84d9702f0e30f57b208e8fbd9a272d87cd530aece4f5213c98e4e
+    MinLength: 1
+    Description: The Java download SHA-256 hash
+  LogGroupName:
+    Type: String
+    Default: ''
+    Description: A custom log group name
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+    - Label:
+        default: Launch configuration
+      Parameters:
+      - LicenseS3Bucket
+      - LicenseS3Path
+      - KeyName
+    - Label:
+        default: Instance configuration
+      Parameters:
+      - InstanceType
+      - DeleteBlockDeviceOnTermination
+    - Label:
+        default: Nexus Repository Manager version
+      Parameters:
+      - NexusRepositoryManagerVersion
+      - NexusRepositoryManagerSha256
+    - Label:
+        default: Java version
+      Parameters:
+      - JavaDownloadUrl
+      - JavaSha256
+    - Label:
+        default: Internally used parameters
+      Parameters:
+      - ChefRecipeVersion
+    ParameterLabels:
+      ChefRecipeVersion:
+        default: Version of chef cookbook to install
+      LicenseS3Bucket:
+        default: License S3 bucket
+      LicenseS3Path:
+        default: License S3 path
+      KeyName:
+        default: Key pair
+      InstanceType:
+        default: Instance type
+      DeleteBlockDeviceOnTermination:
+        default: Delete root block device on termination.
+      NexusRepositoryManagerVersion:
+        default: Nexus Repository Manager version
+      NexusRepositoryManagerSha256:
+        default: Nexus Repository Manager SHA-256
+      JavaDownloadUrl:
+        default: Java Download Url
+      JavaSha256:
+        default: Java SHA-256
+      LogGroupName:
+        default: CloudWatch log group name
+Resources:
+  VpcStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters:
+        VpcNetBlock:
+          Ref: VpcNetBlock
+        SubnetAz:
+          Ref: SubnetAz
+        NexusRepositoryManagerVersion:
+          Ref: NexusRepositoryManagerVersion
+      TemplateURL: https://s3.amazonaws.com/sonatype-cloudformation-templates/nexus-repository-manager/1.0.20190607-153709.e76b283/e41e1a78a20ed2bd7c5551148a271f1c.template
+      TimeoutInMinutes: '10'
+  AppStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters:
+        ChefRecipeVersion:
+          Ref: ChefRecipeVersion
+        DeleteBlockDeviceOnTermination:
+          Ref: DeleteBlockDeviceOnTermination
+        InstanceSubnet:
+          Fn::GetAtt:
+          - VpcStack
+          - Outputs.InstanceSubnet
+        InstanceSecurityGroup:
+          Fn::GetAtt:
+          - VpcStack
+          - Outputs.InstanceSecurityGroup
+        InstanceType:
+          Ref: InstanceType
+        LogGroupName:
+          Ref: LogGroupName
+        JavaDownloadUrl:
+          Ref: JavaDownloadUrl
+        JavaSha256:
+          Ref: JavaSha256
+        KeyName:
+          Ref: KeyName
+        LicenseS3Bucket:
+          Ref: LicenseS3Bucket
+        LicenseS3Path:
+          Ref: LicenseS3Path
+        NexusRepositoryManagerVersion:
+          Ref: NexusRepositoryManagerVersion
+        NexusRepositoryManagerSha256:
+          Ref: NexusRepositoryManagerSha256
+      TemplateURL: https://s3.amazonaws.com/sonatype-cloudformation-templates/nexus-repository-manager/1.0.20190607-153709.e76b283/9419026db4918fde92f9329f2f846afb.template
+      TimeoutInMinutes: '20'
+Outputs:
+  WebsiteURL:
+    Value:
+      Fn::GetAtt:
+      - AppStack
+      - Outputs.WebsiteURL
+  LogGroup:
+    Value:
+      Fn::GetAtt:
+      - AppStack
+      - Outputs.LogGroup
