@@ -1,0 +1,167 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Nexus Repository Manager Minimal Configuration Stack.
+Parameters:
+  LicenseS3Bucket:
+    Type: String
+    Default: ''
+    Description: >-
+      (Optional) The S3 Bucket containing your Nexus Repository Manager license
+      file
+  LicenseS3Path:
+    Type: String
+    Default: ''
+    Description: >-
+      (Optional) The path to your Nexus Repository Manager license file within
+      the S3 Bucket
+  KeyName:
+    Type: String
+    Default: ''
+    Description: Your key pair name for this region
+Metadata:
+  'AWS::CloudFormation::Interface':
+    ParameterGroups:
+      - Label:
+          default: Optional parameters
+        Parameters:
+          - LicenseS3Bucket
+          - LicenseS3Path
+          - KeyName
+    ParameterLabels:
+      LicenseS3Bucket:
+        default: License S3 bucket
+      LicenseS3Path:
+        default: License S3 path
+      KeyName:
+        default: Key pair
+  'AWS::CloudFormation::Designer':
+    567c4d59-f0b7-4ebb-898f-21b9936c9767:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 60
+        'y': 90
+      z: 1
+      embeds: []
+Mappings:
+  AmiRegionMap:
+    us-east-1:
+      centos7: ami-02eac2c0129f6376b
+    us-east-2:
+      centos7: ami-0f2b4fc905b0bd1f1
+    us-west-1:
+      centos7: ami-074e2d6769f445be5
+    us-west-2:
+      centos7: ami-01ed306a12b7d1c96
+    eu-west-1:
+      centos7: ami-0ff760d16d9497662
+    eu-west-2:
+      centos7: ami-0eab3a90fc693af19
+    eu-central-1:
+      centos7: ami-04cf43aca3e6f3de3
+    ap-southeast-1:
+      centos7: ami-0b4dd9d65556cac22
+    ap-southeast-2:
+      centos7: ami-08bd00d7713a39e7d
+    ca-central-1:
+      centos7: ami-033e6106180a626d0
+  Defaults:
+    ChefRecipeVersion:
+      Value: release-0.4.20190312-111301.45b7eef
+    VpcNetBlock:
+      Value: 10.0.0.0/16
+    SubnetAz:
+      Value: 10.0.1.0/24
+    InstanceType:
+      Value: t2.large
+    DeleteBlockDeviceOnTermination:
+      Value: 'true'
+    NexusRepositoryManagerVersion:
+      Value: 3.15.2-01
+    NexusRepositoryManagerSha256:
+      Value: acde357f5bbc6100eb0d5a4c60a1673d5f1f785e71a36cfa308b8dfa45cf25d0
+    JavaDownloadUrl:
+      Value: >-
+        https://download.oracle.com/otn-pub/java/jdk/8u202-b08/1961070e4c9b4e26a04e7f5a083f551e/server-jre-8u202-linux-x64.tar.gz
+    JavaSha256:
+      Value: 61292e9d9ef84d9702f0e30f57b208e8fbd9a272d87cd530aece4f5213c98e4e
+    LogGroupName:
+      Value: ''
+Resources:
+  NestedStack:
+    Type: 'AWS::CloudFormation::Stack'
+    Properties:
+      Parameters:
+        ChefRecipeVersion:
+          'Fn::FindInMap':
+            - Defaults
+            - ChefRecipeVersion
+            - Value
+        LicenseS3Bucket:
+          Ref: LicenseS3Bucket
+        LicenseS3Path:
+          Ref: LicenseS3Path
+        KeyName:
+          Ref: KeyName
+        VpcNetBlock:
+          'Fn::FindInMap':
+            - Defaults
+            - VpcNetBlock
+            - Value
+        SubnetAz:
+          'Fn::FindInMap':
+            - Defaults
+            - SubnetAz
+            - Value
+        InstanceType:
+          'Fn::FindInMap':
+            - Defaults
+            - InstanceType
+            - Value
+        DeleteBlockDeviceOnTermination:
+          'Fn::FindInMap':
+            - Defaults
+            - DeleteBlockDeviceOnTermination
+            - Value
+        NexusRepositoryManagerVersion:
+          'Fn::FindInMap':
+            - Defaults
+            - NexusRepositoryManagerVersion
+            - Value
+        NexusRepositoryManagerSha256:
+          'Fn::FindInMap':
+            - Defaults
+            - NexusRepositoryManagerSha256
+            - Value
+        JavaDownloadUrl:
+          'Fn::FindInMap':
+            - Defaults
+            - JavaDownloadUrl
+            - Value
+        JavaSha256:
+          'Fn::FindInMap':
+            - Defaults
+            - JavaSha256
+            - Value
+        LogGroupName:
+          'Fn::FindInMap':
+            - Defaults
+            - LogGroupName
+            - Value
+      TemplateURL: >-
+        https://s3.amazonaws.com/sonatype-cloudformation-templates/nexus-repository-manager/1.0.20190607-153709.e76b283/932523bfb59244677e3820dc8e8228c5.template
+      TimeoutInMinutes: '10'
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 567c4d59-f0b7-4ebb-898f-21b9936c9767
+Outputs:
+  WebsiteURL:
+    Value:
+      'Fn::GetAtt':
+        - NestedStack
+        - Outputs.WebsiteURL
+  LogGroup:
+    Value:
+      'Fn::GetAtt':
+        - NestedStack
+        - Outputs.LogGroup
