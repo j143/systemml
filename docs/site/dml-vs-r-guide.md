@@ -49,6 +49,18 @@ Example variable naming:
  converged = FALSE
 ```
 
+Custom user defined functions
+
+```dml
+m_csplineDS = function (Matrix[Double] X, Matrix[Double] Y, Double inp_x) 
+  return (Matrix[Double] pred_Y) 
+{
+  print("This is a builtin function")
+  pred_Y = matrix(y, 1, 1)
+}
+```
+
+
 ## Table of Contents
 
 * [Multiple outputs](#multiple-outputs)
