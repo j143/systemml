@@ -62,12 +62,16 @@ RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
 # Maven and Java
 RUN mkdir -p /usr/lib/jvm \
 	&& wget -qO- \
-https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u282-b08/OpenJDK8U-jdk_x64_linux_hotspot_8u282b08.tar.gz | tar xzf - \
+https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u282-b08/OpenJDK8U-jdk_x64_linux_hotspot_8u282b08.tar.gz \
+        && wget -qO- \
+https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u282-b08/OpenJDK8U-jdk_x64_linux_hotspot_8u282b08.tar.gz.sha256.txt \
+        && gpg --verify OpenJDK8U-jdk_x64_linux_hotspot_8u282b08.tar.gz.sha256.txt OpenJDK8U-jdk_x64_linux_hotspot_8u282b08.tar.gz
+        && tar xzf OpenJDK8U-jdk_x64_linux_hotspot_8u282b08.tar.gz \
 	&& mv jdk8u282-b08 /usr/lib/jvm/java-8-openjdk-amd64 \
 	&& wget -qO- \
-http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz 
+http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz \
         && wget -qO- \
-http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz.asc
+http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz.asc \
 	&& gpg --verify apache-maven-$MAVEN_VERSION-bin.tar.gz.asc apache-maven-$MAVEN_VERSION-bin.tar.gz \
         && tar xzf apache-maven-$MAVEN_VERSION-bin.tar.gz \
 	&& mv apache-maven-$MAVEN_VERSION /usr/lib/mvn
