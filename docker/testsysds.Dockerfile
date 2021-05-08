@@ -65,7 +65,11 @@ RUN mkdir -p /usr/lib/jvm \
 https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u282-b08/OpenJDK8U-jdk_x64_linux_hotspot_8u282b08.tar.gz | tar xzf - \
 	&& mv jdk8u282-b08 /usr/lib/jvm/java-8-openjdk-amd64 \
 	&& wget -qO- \
-http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz | tar xzf - \ 
+http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz 
+        && wget -qO- \
+http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz.asc
+	&& gpg --verify apache-maven-$MAVEN_VERSION-bin.tar.gz.asc apache-maven-$MAVEN_VERSION-bin.tar.gz \
+        && tar xzf apache-maven-$MAVEN_VERSION-bin.tar.gz \
 	&& mv apache-maven-$MAVEN_VERSION /usr/lib/mvn
 
 # R
