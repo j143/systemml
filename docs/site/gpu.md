@@ -55,6 +55,21 @@ architecture specific PTX is not available enable JIT PTX with instructions comp
   > nvcc SystemDS.cu --gpu-architecture=compute_50 --gpu-code=sm_50,sm_52
   > ```
 
+NVIDIA CUDA version specified to brand name
+
+
+A minimum version of 10.2 CUDA toolkit version is recommended.
+
+| GPU type |
+| --- |
+| NVIDIA T4 |
+| NVIDIA V100 |
+| NVIDIA P100 |
+| NVIDIA P4 |
+| NVIDIA K80 |
+
+This software may not run on NVIDIA A100, yet.
+
 ### Software
 
 The following NVIDIA software is required to be installed in your system:
