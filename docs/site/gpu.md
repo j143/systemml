@@ -55,6 +55,8 @@ architecture specific PTX is not available enable JIT PTX with instructions comp
   > nvcc SystemDS.cu --gpu-architecture=compute_50 --gpu-code=sm_50,sm_52
   > ```
 
+Note: A disk of minimum size 30 GB is recommended.
+
 NVIDIA CUDA version specified to brand name
 
 
@@ -128,12 +130,18 @@ These instructions may not address this.
 ```sh
 
 # Add NVIDIA package repositories
+# 1. Download the Ubuntu 18.04 driver repository
 wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-ubuntu1804.pin
+# 2. Move the repository to preferences
 sudo mv cuda-ubuntu1804.pin /etc/apt/preferences.d/cuda-repository-pin-600
+# 3. Fetch keys
 sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
+# 4. add repository
 sudo add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/ /"
+# 5. Update package lists
 sudo apt-get update
 
+# ---
 # get the machine-learning repo
 wget http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/nvidia-machine-learning-repo-ubuntu1804_1.0.0-1_amd64.deb
 
@@ -144,12 +152,11 @@ wget http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1
 sudo apt install ./libcudnn7_7.6.5.32-1+cuda10.2_amd64.deb
 sudo apt-get update
 
+# ---
+
 # Install development and runtime libraries (~4GB)
 sudo apt-get install --no-install-recommends \
-    cuda-10-2 \
-    libcudnn7=7_7.6.5.32-1+cuda10.2  \
-    libcudnn7-dev=7_7.6.5.32-1+cuda10.2
-    
+    cuda-10-2
 # Reboot the system. And run `nvidia-smi` for GPU check.
 ```
 
