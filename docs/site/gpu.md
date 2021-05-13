@@ -57,20 +57,17 @@ architecture specific PTX is not available enable JIT PTX with instructions comp
 
 Note: A disk of minimum size 30 GB is recommended.
 
-NVIDIA CUDA version specified to brand name
 
+A minimum version of 10.2 CUDA toolkit version is recommended, for the following GPUs.
 
-A minimum version of 10.2 CUDA toolkit version is recommended.
-
-| GPU type |
-| --- |
-| NVIDIA T4 |
-| NVIDIA V100 |
-| NVIDIA P100 |
-| NVIDIA P4 |
-| NVIDIA K80 |
-
-This software may not run on NVIDIA A100, yet.
+| GPU type | Status | 
+| --- | --- |
+| NVIDIA T4 | Experimental |
+| NVIDIA V100 | Experimental |
+| NVIDIA P100 | Experimental |
+| NVIDIA P4 | Experimental |
+| NVIDIA K80 | Tested |
+| NVIDIA A100 | Not supported |
 
 ### Software
 
@@ -85,8 +82,6 @@ CUDA toolkit
 
 ## Linux
 
-## Linux
-
 One easiest way to install the NVIDIA software is with `apt` on Ubuntu. For other distributions
 refer to the [CUDA install Linux](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html).
 
@@ -94,22 +89,6 @@ Note: All linux distributions may not support this. you might encounter some pro
 installations.
 
 To check the CUDA compatible driver version:
-
-```sh
-
-# linux-modules-nvidia-390-5.0.0-1018-azure
-#                                    -aws, -gcp, -oracle, -generic, or -lowlatency
-
-# Get the latest driver version number, significant digit 5 like 435, 450
-NVIDIA_DRIVER_VERSION=$(sudo apt-cache search 'linux-modules-nvidia-[0-9]+-generic$' | awk '{print $1}' | sort | tail -n 1 | head -n 1 | awk -F"-" '{print $4}')
-
-CUDA_DRIVER_VERSION=$(apt-cache madison nvidia-cuda-toolkit | awk '{print $3}' | sort -r | while read line; do
-   if dpkg --compare-versions $(dpkg-query -f='${Version}\n' -W nvidia-driver-${NVIDIA_DRIVER_VERSION}) ge $line ; then
-       echo "$line"
-       break
-   fi
-done)
-```
 
 Install [CUPTI](http://docs.nvidia.com/cuda/cupti/) which ships with CUDA toolkit for profiling.
 
@@ -143,6 +122,7 @@ sudo apt-get update
 
 # ---
 # get the machine-learning repo
+# this downloads the repository package but not the actual installation package
 wget http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/nvidia-machine-learning-repo-ubuntu1804_1.0.0-1_amd64.deb
 
 sudo apt install ./nvidia-machine-learning-repo-ubuntu1804_1.0.0-1_amd64.deb
@@ -152,12 +132,45 @@ wget http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1
 sudo apt install ./libcudnn7_7.6.5.32-1+cuda10.2_amd64.deb
 sudo apt-get update
 
+wget http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/libcudnn7-dev_7.6.5.32-1+cuda10.2_amd64.deb
+sudo apt install ./libcudnn7-dev_7.6.5.32-1+cuda10.2_amd64.deb
+sudo apt-get update
+
 # ---
 
 # Install development and runtime libraries (~4GB)
 sudo apt-get install --no-install-recommends \
-    cuda-10-2
+    cuda-10-2 \
+    libcudnn7=7.6.5.32-1+cuda10.2 \
+    libcudnn7-dev=7.6.5.32-1+cuda10.2
+    
 # Reboot the system. And run `nvidia-smi` for GPU check.
+```
+
+#### Installation check
+
+```sh
+$ nvidia-smi
+Thu May 13 04:19:11 2021
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 465.19.01    Driver Version: 465.19.01    CUDA Version: 11.3     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  NVIDIA Tesla K80    Off  | 00000000:00:1E.0 Off |                    0 |
+| N/A   38C    P0    58W / 149W |      0MiB / 11441MiB |     98%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
 ```
 
 
