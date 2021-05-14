@@ -121,7 +121,7 @@ sudo add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/
 sudo apt-get update
 
 # ---
-# get the machine-learning repo
+# 6. get the machine-learning repo
 # this downloads the repository package but not the actual installation package
 wget http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/nvidia-machine-learning-repo-ubuntu1804_1.0.0-1_amd64.deb
 
@@ -138,7 +138,7 @@ sudo apt-get update
 
 # ---
 
-# Install development and runtime libraries (~4GB)
+# 7. Install development and runtime libraries (~4GB)
 sudo apt-get install --no-install-recommends \
     cuda-10-2 \
     libcudnn7=7.6.5.32-1+cuda10.2 \
@@ -173,6 +173,27 @@ Thu May 13 04:19:11 2021
 +-----------------------------------------------------------------------------+
 ```
 
+#### To run SystemDS with CUDA
+
+Pass `.dml` file with `-f` flag
+
+```sh
+java -Xmx4g -Xms4g -Xmn400m -cp target/SystemDS.jar:target/lib/*:target/SystemDS-*.jar org.apache.sysds.api.DMLScript -f ../main.dml -exec singlenode -gpu
+```
+
+```output
+[ INFO] BEGIN DML run 05/14/2021 02:37:26
+[ INFO] Initializing CUDA
+[ INFO] GPU memory - Total: 11996.954624 MB, Available: 11750.539264 MB on GPUContext{deviceNum=0}
+[ INFO] Total number of GPUs on the machine: 1
+[ INFO] GPUs being used: -1
+[ INFO] Initial GPU memory: 10575485337
+
+This is SystemDS!
+
+SystemDS Statistics:
+Total execution time:           0.020 sec.
+```
 
 ## Windows
 
