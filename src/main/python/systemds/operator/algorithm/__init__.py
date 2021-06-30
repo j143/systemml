@@ -48,6 +48,7 @@ from .builtin.glm import glm
 from .builtin.gmm import gmm 
 from .builtin.gmmPredict import gmmPredict 
 from .builtin.gnmf import gnmf 
+from .builtin.hospitalResidencyMatch import hospitalResidencyMatch 
 from .builtin.hyperband import hyperband 
 from .builtin.img_brightness import img_brightness 
 from .builtin.img_crop import img_crop 
@@ -140,6 +141,7 @@ __all__ = ['abstain',
  'gmm',
  'gmmPredict',
  'gnmf',
+ 'hospitalResidencyMatch',
  'hyperband',
  'img_brightness',
  'img_crop',
