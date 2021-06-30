@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Converters &mdash; SystemDS 2.0.0 documentation</title>
   
@@ -13,10 +13,15 @@
   
   <link rel="stylesheet" href="../../static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../static/css/theme.css" type="text/css" />
 
   
   
+
   
+  
+
   
 
   
@@ -26,10 +31,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js"></script>
         <script src="../../static/jquery.js"></script>
         <script src="../../static/underscore.js"></script>
         <script src="../../static/doctools.js"></script>
-        <script src="../../static/language_data.js"></script>
     
     <script type="text/javascript" src="../../static/js/theme.js"></script>
 
@@ -51,7 +56,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> SystemDS
+            <a href="../../index.html" class="icon icon-home"> SystemDS
           
 
           
@@ -149,6 +154,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -160,7 +167,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="../../sources/api/utils/converters.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -181,8 +188,8 @@
 <p>OPS! For internal use!</p>
 </div>
 <span class="target" id="module-systemds.utils.converters"></span><dl class="py function">
-<dt id="systemds.utils.converters.matrix_block_to_numpy">
-<code class="sig-prename descclassname">systemds.utils.converters.</code><code class="sig-name descname">matrix_block_to_numpy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">jvm</span><span class="p">:</span> <span class="n">py4j.java_gateway.JVMView</span></em>, <em class="sig-param"><span class="n">mb</span><span class="p">:</span> <span class="n">py4j.java_gateway.JavaObject</span></em><span class="sig-paren">)</span><a class="headerlink" href="#systemds.utils.converters.matrix_block_to_numpy" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="systemds.utils.converters.matrix_block_to_numpy">
+<span class="sig-prename descclassname"><span class="pre">systemds.utils.converters.</span></span><span class="sig-name descname"><span class="pre">matrix_block_to_numpy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">jvm</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">py4j.java_gateway.JVMView</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mb</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">py4j.java_gateway.JavaObject</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#systemds.utils.converters.matrix_block_to_numpy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts a MatrixBlock object in the JVM to a numpy array.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -195,8 +202,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="systemds.utils.converters.numpy_to_matrix_block">
-<code class="sig-prename descclassname">systemds.utils.converters.</code><code class="sig-name descname">numpy_to_matrix_block</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sds</span><span class="p">:</span> <span class="n">SystemDSContext</span></em>, <em class="sig-param"><span class="n">np_arr</span><span class="p">:</span> <span class="n">numpy.array</span></em><span class="sig-paren">)</span><a class="headerlink" href="#systemds.utils.converters.numpy_to_matrix_block" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="systemds.utils.converters.numpy_to_matrix_block">
+<span class="sig-prename descclassname"><span class="pre">systemds.utils.converters.</span></span><span class="sig-name descname"><span class="pre">numpy_to_matrix_block</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sds</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">SystemDSContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">np_arr</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.array</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#systemds.utils.converters.numpy_to_matrix_block" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts a given numpy array, to internal matrix block representation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -209,8 +216,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="systemds.utils.converters.pandas_to_frame_block">
-<code class="sig-prename descclassname">systemds.utils.converters.</code><code class="sig-name descname">pandas_to_frame_block</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sds</span><span class="p">:</span> <span class="n">SystemDSContext</span></em>, <em class="sig-param"><span class="n">pd_df</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em><span class="sig-paren">)</span><a class="headerlink" href="#systemds.utils.converters.pandas_to_frame_block" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="systemds.utils.converters.pandas_to_frame_block">
+<span class="sig-prename descclassname"><span class="pre">systemds.utils.converters.</span></span><span class="sig-name descname"><span class="pre">pandas_to_frame_block</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sds</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">SystemDSContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pd_df</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#systemds.utils.converters.pandas_to_frame_block" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts a given numpy array, to internal matrix block representation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -229,37 +236,29 @@
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="helpers.html" class="btn btn-neutral float-right" title="Helpers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="../script_building/script.html" class="btn btn-neutral float-left" title="Script" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="helpers.html" class="btn btn-neutral float-right" title="Helpers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../script_building/script.html" class="btn btn-neutral float-left" title="Script" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2021, Apache SystemDS
+        &#169; Copyright 2021, Apache SystemDS.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 

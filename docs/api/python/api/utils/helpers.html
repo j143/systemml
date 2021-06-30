@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Helpers &mdash; SystemDS 2.0.0 documentation</title>
   
@@ -13,10 +13,15 @@
   
   <link rel="stylesheet" href="../../static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../static/css/theme.css" type="text/css" />
 
   
   
+
   
+  
+
   
 
   
@@ -26,10 +31,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js"></script>
         <script src="../../static/jquery.js"></script>
         <script src="../../static/underscore.js"></script>
         <script src="../../static/doctools.js"></script>
-        <script src="../../static/language_data.js"></script>
     
     <script type="text/javascript" src="../../static/js/theme.js"></script>
 
@@ -50,7 +55,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> SystemDS
+            <a href="../../index.html" class="icon icon-home"> SystemDS
           
 
           
@@ -148,6 +153,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -159,7 +166,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="../../sources/api/utils/helpers.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -180,8 +187,8 @@
 <p>OPS! For internal use!</p>
 </div>
 <span class="target" id="module-systemds.utils.helpers"></span><dl class="py function">
-<dt id="systemds.utils.helpers.create_params_string">
-<code class="sig-prename descclassname">systemds.utils.helpers.</code><code class="sig-name descname">create_params_string</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">unnamed_parameters</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">named_parameters</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>str<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#systemds.utils.helpers.create_params_string" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="systemds.utils.helpers.create_params_string">
+<span class="sig-prename descclassname"><span class="pre">systemds.utils.helpers.</span></span><span class="sig-name descname"><span class="pre">create_params_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unnamed_parameters</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">named_parameters</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">str</span><a class="headerlink" href="#systemds.utils.helpers.create_params_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a string for providing parameters in dml. Basically converts both named and unnamed parameter
 to a format which can be used in a dml function call.</p>
 <dl class="field-list simple">
@@ -198,8 +205,8 @@ to a format which can be used in a dml function call.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="systemds.utils.helpers.get_module_dir">
-<code class="sig-prename descclassname">systemds.utils.helpers.</code><code class="sig-name descname">get_module_dir</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; os.PathLike<a class="headerlink" href="#systemds.utils.helpers.get_module_dir" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="systemds.utils.helpers.get_module_dir">
+<span class="sig-prename descclassname"><span class="pre">systemds.utils.helpers.</span></span><span class="sig-name descname"><span class="pre">get_module_dir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">os.PathLike</span><a class="headerlink" href="#systemds.utils.helpers.get_module_dir" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gives the path to our module</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -215,35 +222,28 @@ to a format which can be used in a dml function call.</p>
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-      
-        <a href="converters.html" class="btn btn-neutral float-left" title="Converters" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="converters.html" class="btn btn-neutral float-left" title="Converters" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2021, Apache SystemDS
+        &#169; Copyright 2021, Apache SystemDS.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
