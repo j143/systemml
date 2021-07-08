@@ -20,7 +20,7 @@ limitations under the License.
 # Apache SystemDS Documentation
 
 The primary SystemDS documentation is written in markdown (*.md) and can be converted to HTML using
-[Jekyll](http://jekyllrb.com).
+
 
 The Documentation is separated into different parts by sub folders.
 
