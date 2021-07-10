@@ -26,6 +26,41 @@ guide covers various practical functions or operations.
 
 NOTE: This document is still a work in progress.
 
+## DML styleguide
+
+Indentation: `2 spaces`
+Semi-colons: `Optional`
+Spaces between words and parenthesis: `if( check & (it%%2 == 0) )`
+Example variable naming:
+ ```
+ # matrices named in Capitals
+ X = read(fileX)
+ 
+ # double values named in small letters
+ m = nrow(X)
+ 
+ # constructed matrices (general use)
+ row_nonzeros = matrix(0,rows=1,cols=1)
+ 
+ # Assign aggregated values for clear & readable naming
+ norm_G2 = sum (G ^ 2)
+ 
+ # Boolean flags
+ converged = FALSE
+```
+
+Custom user defined functions
+
+```dml
+m_csplineDS = function (Matrix[Double] X, Matrix[Double] Y, Double inp_x) 
+  return (Matrix[Double] pred_Y) 
+{
+  print("This is a builtin function")
+  pred_Y = matrix(y, 1, 1)
+}
+```
+
+
 ## Table of Contents
 
 * [Multiple outputs](#multiple-outputs)
